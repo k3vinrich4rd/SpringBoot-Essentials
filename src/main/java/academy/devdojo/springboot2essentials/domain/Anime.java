@@ -9,7 +9,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Anime {
 
-    private UUID id;
+    private Long id;
     private String name;
 
 }

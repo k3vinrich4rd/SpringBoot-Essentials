@@ -37,4 +37,11 @@ public class AnimeController {
     public ResponseEntity<Anime> findById(@PathVariable Long id) {
         return ResponseEntity.ok(animeService.findById(id));
     }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> deleteAnime(@PathVariable Long id) {
+        animeService.deleteAnime(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }

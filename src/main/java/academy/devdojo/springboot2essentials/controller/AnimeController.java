@@ -38,6 +38,12 @@ public class AnimeController {
         return ResponseEntity.ok(animeService.findById(id));
     }
 
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Void> replace(@RequestBody Anime anime) {
+        animeService.replace(anime);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> deleteAnime(@PathVariable Long id) {
         animeService.deleteAnime(id);

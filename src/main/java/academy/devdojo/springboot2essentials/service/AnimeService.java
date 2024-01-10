@@ -19,7 +19,7 @@ public class AnimeService {
         animes = new ArrayList<>(List.of(new Anime(1L, "Boku No Hero"), new Anime(2L, "Berserk")));
     }
 
-    public List<Anime> findById() {
+    public List<Anime> listAll() {
         return animes;
     }
 

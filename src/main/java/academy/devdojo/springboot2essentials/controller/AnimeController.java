@@ -30,7 +30,7 @@ public class AnimeController {
     @GetMapping
     public ResponseEntity<List<Anime>> listAll() {
         log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
-        return new ResponseEntity<>(animeService.findById(), HttpStatus.OK);
+        return new ResponseEntity<>(animeService.listAll(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")

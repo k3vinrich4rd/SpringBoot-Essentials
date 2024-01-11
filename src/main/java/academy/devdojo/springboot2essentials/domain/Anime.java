@@ -1,6 +1,7 @@
 package academy.devdojo.springboot2essentials.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 //@Table(name = "student_register") usado para definir um nome a tabela
 //Mas se esse nome não for definido a tabela terá o nome da classe
 public class Anime {

@@ -1,14 +1,14 @@
 package academy.devdojo.springboot2essentials.service;
 
 import academy.devdojo.springboot2essentials.domain.Anime;
+import academy.devdojo.springboot2essentials.exception.NotFoundException;
 import academy.devdojo.springboot2essentials.mapper.AnimeMapper;
 import academy.devdojo.springboot2essentials.repository.AnimeRepository;
 import academy.devdojo.springboot2essentials.requests.AnimePostRequestBody;
 import academy.devdojo.springboot2essentials.requests.AnimePutRequestBody;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,6 +18,7 @@ public class AnimeService {
 
     private final AnimeRepository animeRepository;
 
+    @Transactional
     public Anime createAnime(AnimePostRequestBody animePostRequestBody) {
         return animeRepository.save(AnimeMapper.INSTANCE.toAnime(animePostRequestBody));
 
@@ -29,7 +30,11 @@ public class AnimeService {
 
     public Anime findByIdOrThrowNotFoundException(Long id) {
         return animeRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not Found"));
+                .orElseThrow(() -> new NotFoundException("Anime not found"));
+    }
+
+    public List<Anime> findByName(String name) {
+        return animeRepository.findByName(name);
     }
 
     public void replace(AnimePutRequestBody animePutRequestBody) {

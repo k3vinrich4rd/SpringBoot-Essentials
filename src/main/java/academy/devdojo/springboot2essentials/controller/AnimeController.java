@@ -40,6 +40,11 @@ public class AnimeController {
         return ResponseEntity.ok(animeService.findByIdOrThrowNotFoundException(id));
     }
 
+    @GetMapping(path = "/find")
+    public ResponseEntity<List<Anime>> findByName(@RequestParam String name) {
+        return ResponseEntity.ok(animeService.findByName(name));
+    }
+
     @PutMapping(path = "/{id}")
     public ResponseEntity<Void> replace(@RequestBody AnimePutRequestBody animePutRequestBody) {
         animeService.replace(animePutRequestBody);

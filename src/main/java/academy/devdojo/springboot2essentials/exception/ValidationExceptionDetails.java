@@ -5,6 +5,7 @@ import lombok.experimental.SuperBuilder;
 
 @Getter
 @SuperBuilder
-public class NotFoundExceptionDetails extends ExceptionDetails {
-
+public class ValidationExceptionDetails extends ExceptionDetails {
+    private final String field;
+    private final String fieldsMessage;
 }

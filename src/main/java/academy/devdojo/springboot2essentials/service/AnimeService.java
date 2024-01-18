@@ -26,11 +26,11 @@ public class AnimeService {
 
     }
 
-    public Page<Anime> listAllWithPageable(Pageable pageable) {
+    public Page<Anime> listAll(Pageable pageable) {
         return animeRepository.findAll(pageable);
     }
 
-    public List<Anime> listAll() {
+    public List<Anime> listAllNonPageable() {
         return animeRepository.findAll();
     }
     public Anime findByIdOrThrowNotFoundException(Long id) {

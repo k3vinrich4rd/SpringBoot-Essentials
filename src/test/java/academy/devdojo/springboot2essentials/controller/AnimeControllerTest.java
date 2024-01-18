@@ -35,14 +35,22 @@ class AnimeControllerTest {
         //Definindo o comportamento do mock de listAll();
         //Antes de cada um dos testes executados nesta classe (faça):
     void setUp() {
-        PageImpl<Anime> animePage = new PageImpl<>(List.of(AnimeCreator.createValidAnime()));
-        BDDMockito.when(animeServiceMock.listAll(ArgumentMatchers.any()))
-                .thenReturn(animePage);
 
-        /* Resumo: Foi criada uma variável que representa uma lista com informações da entidade,
+         /* Resumo: Foi criada uma variável que representa uma lista com informações da entidade,
         que contém paginação, depois foi estabelecido uma regra para efetuar a chamada do método
         listAll, sendo: quando esse método (listAll) for chamado
         retorne a variável que contém paginação */
+        PageImpl<Anime> animePage = new PageImpl<>(List.of(AnimeCreator.createValidAnime()));
+        BDDMockito.when(animeServiceMock.listAllWithPageable(ArgumentMatchers.any()))
+                .thenReturn(animePage);
+
+        /* Resumo: Quando o método listAllNonPageable for chamado
+        então retorne uma lista do objeto, representado através do método estático
+        createValidAnime */
+        BDDMockito.when(animeServiceMock.listAllNonPageable())
+                .thenReturn(List.of(AnimeCreator.createValidAnime()));
+
+
     }
 
 
@@ -64,6 +72,26 @@ class AnimeControllerTest {
                         .get(0)
                         .getName())
                 .isEqualTo(expectedName);
+
+
+    }
+
+    @Test
+    @DisplayName("ListAll returns of anime when successful")
+    void ListAllReturnsOfAnimesWhenSuccessful() {
+
+        String expectedName = AnimeCreator.createValidAnime().getName();
+
+        List<Anime> animes = animeController.listAll().getBody();
+
+        Assertions.assertThat(animes).isNotNull();
+
+        Assertions.assertThat(animes)
+                .isNotNull()
+                .isNotEmpty()
+                .hasSize(1);
+
+        Assertions.assertThat(animes.get(0).getName()).isEqualTo(expectedName);
 
 
     }

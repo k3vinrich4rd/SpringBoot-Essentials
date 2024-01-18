@@ -35,12 +35,12 @@ public class AnimeController {
     //Paginação
     @GetMapping
     public ResponseEntity<Page<Anime>> list(Pageable pageable) {
-        return new ResponseEntity<>(animeService.listAll(pageable), HttpStatus.OK);
+        return new ResponseEntity<>(animeService.listAllWithPageable(pageable), HttpStatus.OK);
     }
 
     @GetMapping(path = "/all")
     public ResponseEntity<List<Anime>> listAll() {
-        log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
+
         return new ResponseEntity<>(animeService.listAllNonPageable(), HttpStatus.OK);
     }
 

@@ -51,14 +51,28 @@ class AnimeControllerTest {
                 .thenReturn(List.of(AnimeCreator.createValidAnime()));
 
 
-    }
+        /* Resumo: Quando o método findById for chamado
+        então retorne um objeto, representado através do método estático
+        createValidAnime */
+        BDDMockito.when(animeServiceMock.findByIdOrThrowNotFoundException(ArgumentMatchers.anyLong()))
+                .thenReturn(AnimeCreator.createValidAnime());
 
+
+        /* Resumo: Quando o método findByName for chamado
+        então retorne uma lista do objeto, representado através do método estático
+        createValidAnime */
+        BDDMockito.when(animeServiceMock.findByName(ArgumentMatchers.anyString()))
+                .thenReturn(List.of(AnimeCreator.createValidAnime()));
+
+    }
 
     @Test
     @DisplayName("returns list of anime inside page object when successful")
     void returnsListOfAnimesInsidePageObjectWhenSuccessful() {
 
         String expectedName = AnimeCreator.createValidAnime().getName();
+
+        Long expectedLong = AnimeCreator.createValidAnime().getId();
 
         Page<Anime> animePage = animeController.list(null).getBody();
 
@@ -73,14 +87,20 @@ class AnimeControllerTest {
                         .getName())
                 .isEqualTo(expectedName);
 
+        Assertions.assertThat(animePage.toList()
+                        .get(0)
+                        .getId())
+                .isEqualTo(expectedLong);
 
     }
 
     @Test
     @DisplayName("ListAll returns of anime when successful")
-    void ListAllReturnsOfAnimesWhenSuccessful() {
+    void listAllReturnsOfAnimesWhenSuccessful() {
 
         String expectedName = AnimeCreator.createValidAnime().getName();
+
+        Long expectedLong = AnimeCreator.createValidAnime().getId();
 
         List<Anime> animes = animeController.listAll().getBody();
 
@@ -93,7 +113,47 @@ class AnimeControllerTest {
 
         Assertions.assertThat(animes.get(0).getName()).isEqualTo(expectedName);
 
+        Assertions.assertThat(animes.get(0).getId()).isEqualTo(expectedLong);
 
+
+    }
+
+    @Test
+    @DisplayName("findById returns anime when successful")
+    void findByIdReturnsAnimesWhenSuccessful() {
+
+        Long expectedId = AnimeCreator.createValidAnime().getId();
+
+        String expectedName = AnimeCreator.createValidAnime().getName();
+
+        Anime anime = animeController.findById(1L).getBody();
+
+        Assertions.assertThat(anime).isNotNull();
+
+        Assertions.assertThat(anime.getId())
+                .isNotNull()
+                .isEqualTo(expectedId);
+
+        Assertions.assertThat(anime.getName())
+                .isNotNull()
+                .isEqualTo(expectedName);
+
+    }
+
+    @Test
+    @DisplayName("findByName returns a list of anime when successful")
+    void findByNamedReturnsListAnimesWhenSuccessful() {
+
+        String expectedName = AnimeCreator.createValidAnime().getName();
+
+        List<Anime> animes = animeController.findByName("teste").getBody();
+
+        Assertions.assertThat(animes)
+                .isNotEmpty()
+                .isNotNull()
+                .hasSize(1);
+
+        Assertions.assertThat(animes.get(0).getName()).isEqualTo(expectedName);
     }
 
 }
